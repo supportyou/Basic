@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+			
+	<!-- MaxSize=10M -->
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+	<constant name="struts.multipart.maxSize" value="10485760"/>
+  
+	<package name="student" extends="struts-default">
+		<action name="savestudent" class="studentAction" method="save">
+			<result name="success" type="redirect">findallstudentbypager.action</result>
+			<result name="add">${ctx}/student/student_add.jsp</result> 
+		</action>
+		<action name="updatestudent" class="studentAction" method="update">
+			<result name="findallbypager" type="redirect">findallstudentbypager.action</result>
+			<result name="amend">${ctx}/student/student_amend.jsp</result> 
+		</action>
+		<action name="deletestudent" class="studentAction" method="delete">
+			<result name="findallbypager" type="redirect">findallstudentbypager.action</result> 
+		</action>
+		<action name="findonestudent" class="studentAction" method="findOne">
+			<result name="view">${ctx}/student/student_view.jsp</result>
+			<result name="amend">${ctx}/student/student_amend.jsp</result>
+			<result name="copy">${ctx}/student/student_add.jsp</result>
+		</action>
+		<action name="findallstudent" class="studentAction" method="findAll">
+			<result name="findall">${ctx}/student/all.jsp</result>
+		</action>      
+		<action name="findallstudentbypager" class="studentAction" method="findAllByPager">
+			<result name="findallbypager">${ctx}/student/student_all.jsp</result>
+		</action>
+		<action name="findallstudentforjson" class="studentAction" method="findAllForJson"></action>
+	</package>
+	
+	<package name="user" extends="struts-default">
+		<action name="login" class="userAction" method="login">
+			<result name="success">${ctx}/student/main.jsp</result>
+			<result name="error">${ctx}/login.jsp</result> 
+		</action>
+		<action name="logout" class="userAction" method="logout">
+			<result name="success">${ctx}/login.jsp</result>
+			<result name="error">${ctx}/login.jsp</result> 
+		</action>
+		<action name="updateuser1" class="userAction" method="updateProfile">
+			<result name="success">${ctx}/student/user_view.jsp</result>
+			<result name="error">${ctx}/student/user_amend.jsp</result> 
+		</action>
+		<action name="updateuser2" class="userAction" method="updatePassword">
+			<result name="success">${ctx}/student/user_view.jsp</result>
+			<result name="error">${ctx}/student/user_amend.jsp</result> 
+		</action>
+		<action name="cc" class="com.basic.action.CheckCodeAction"></action>
+	</package>
+	
+	<package name="document" extends="struts-default">
+		<action name="savedocument" class="documentAction" method="save">
+			<result name="success" type="redirect">findalldocumentbypager.action</result>
+			<result name="add">${ctx}/student/document_add.jsp</result> 
+		</action>
+		<action name="updatedocument" class="documentAction" method="update">
+			<result name="findallbypager" type="redirect">findalldocumentbypager.action</result>
+			<result name="amend">${ctx}/student/document_amend.jsp</result> 
+		</action>
+		<action name="deletedocument" class="documentAction" method="delete">
+			<result name="findallbypager" type="redirect">findalldocumentbypager.action</result> 
+		</action>
+		<action name="findonedocument" class="documentAction" method="findOne">
+			<result name="view">${ctx}/student/document_view.jsp</result>
+			<result name="amend">${ctx}/student/document_amend.jsp</result>
+			<result name="copy">${ctx}/student/document_add.jsp</result>
+		</action>
+		<action name="findalldocument" class="documentAction" method="findAll">
+			<result name="findall">${ctx}/student/all.jsp</result>
+		</action>      
+		<action name="findalldocumentbypager" class="documentAction" method="findAllByPager">
+			<result name="findallbypager">${ctx}/student/document_all.jsp</result>
+		</action>
+		<action name="findalldocumentforjson" class="documentAction" method="findAllForJson"></action>
+	</package>
+	
+	<package name="upload" extends="struts-default">
+		<action name="upload" class="com.basic.action.UploadAction">          
+			<result name="success">${ctx}/student/upload_ok.jsp</result>      
+			<result name="input">${ctx}/student/upload.jsp</result>
+			
+			<interceptor-ref name="fileUpload">           
+				<param name="maximumSize">1024*1024*10</param>             
+				<!-- <param name="allowedExtensions">jpg,pdf</param> -->          
+			</interceptor-ref>           
+			<interceptor-ref name="defaultStack"/>
+		</action>
+	</package>
+	
+	<package name="download" extends="struts-default">
+		<action name="download" class="com.basic.action.DownloadAction">          
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream;charset=UTF-8</param>
+				<param name="inputName">downloadFile</param>  
+				<param name="contentDisposition">attachment;fileName="${downloadFileName}"</param>
+				<param name="bufferSize">4096</param>
+			</result>  
+		</action>
+	</package>    
+    
+</struts>

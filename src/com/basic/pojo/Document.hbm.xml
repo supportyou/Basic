@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-12 11:03:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.basic.pojo.Document" table="document" catalog="basic">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="fileTopic" type="string">
+            <column name="fileTopic" length="45" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="fileName" length="45" />
+        </property>
+        <property name="fileContentType" type="string">
+            <column name="fileContentType" length="45" />
+        </property>
+        <property name="fileSize" type="java.lang.Integer">
+            <column name="fileSize" />
+        </property>
+        <property name="newFileName" type="string">
+            <column name="newFileName" length="100" />
+        </property>
+        <property name="uploadTime" type="string">
+            <column name="uploadTime" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

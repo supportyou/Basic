@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+			
+				
+	<bean id="baseDao" class="com.basic.base.BaseDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean> 
+		
+	<!-- Student -->
+	<bean id="studentAction" class="com.basic.action.StudentAction" scope="prototype">
+		<property name="studentService" ref="studentService"/>
+	</bean>
+	<bean id="studentService" class="com.basic.service.impl.StudentService">
+		<property name="studentDao" ref="studentDao"/>
+	</bean>
+	<bean id="studentDao" class="com.basic.dao.impl.StudentDao" parent="baseDao"></bean>
+	<!--  -->
+		
+	<!-- User -->
+	<bean id="userAction" class="com.basic.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService"/>
+	</bean>
+	<bean id="userService" class="com.basic.service.impl.UserService">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	<bean id="userDao" class="com.basic.dao.impl.UserDao" parent="baseDao"></bean>
+		
+	<bean id="ccAction" class="com.basic.action.CheckCodeAction" scope="prototype">
+		<property name="checkCodeService" ref="checkCodeService"/>
+	</bean>
+	<bean id="checkCodeService" class="com.basic.service.impl.CheckCodeService">
+	</bean>
+	<!--  -->
+	
+	<!-- Document -->
+	<bean id="documentAction" class="com.basic.action.DocumentAction" scope="prototype">
+		<property name="documentService" ref="documentService"/>
+	</bean>
+	<bean id="documentService" class="com.basic.service.impl.DocumentService">
+		<property name="documentDao" ref="documentDao"/>
+	</bean>
+	<bean id="documentDao" class="com.basic.dao.impl.DocumentDao" parent="baseDao"></bean>
+	<!--  -->
+	
+		
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>          
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/basic/pojo/Student.hbm.xml</value>
+				<value>com/basic/pojo/User.hbm.xml</value>
+				<value>com/basic/pojo/Document.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+		<property name="initialSize" value="30"/>
+		<property name="maxActive" value="100"/>
+		<property name="maxIdle" value="100"/>
+		<property name="maxWait" value="1000"/> 
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:advice id="basicAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>
+			<tx:method name="load*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="set*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="allBasicServiceMethod" expression="(execution(* com.basic.service.*.*(..))) or (execution(* com.basic.base.IBaseService.*(..)))"/>
+		<!--<aop:pointcut id="allBasicServiceMethod" expression="execution(* service.*.*(..))"/>-->
+		<aop:advisor pointcut-ref="allBasicServiceMethod" advice-ref="basicAdvice" />
+	</aop:config>
+	
+</beans>
