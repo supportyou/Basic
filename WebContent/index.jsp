@@ -15,7 +15,8 @@ hello, world!!!
 <a href="findallstudent.action">All Student</a>
 <br>
 <a href="findallstudentforjson.action">All Student For Json</a>
-
+<br>
+<a href="mail.action">Email</a>
 <br>
 ============================
 <br>

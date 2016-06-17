@@ -1,0 +1,8 @@
+<html>  
+        <head><title>来自S2SH </title></head>  
+        <body>  
+            <div>${userName} 邮件发送!</div>  
+            <div>${content}</div>
+            <div>${email}</div>   
+        </body>  
+ </html>

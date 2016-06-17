@@ -102,6 +102,12 @@
 				<param name="bufferSize">4096</param>
 			</result>  
 		</action>
-	</package>    
+	</package>
+	
+	<package name="mail" extends="struts-default">
+		<action name="mail" class="mailAction">
+			<result name="success" type="redirect">${ctx}/test.jsp</result>
+		</action>
+	</package>  
     
 </struts>
