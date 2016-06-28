@@ -2,11 +2,12 @@ package com.basic.util;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class dataFormat {
-  public dataFormat() {  }
+public class DataFormat {
+  public DataFormat() {  }
 
   public static String toHtml(String s) {
     if (s==null) return s;
@@ -319,7 +320,17 @@ public class dataFormat {
   	return newdate;
   }
   
-  
+  public static Date getDateFormat(String strolddate) {
+	SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+	if (strolddate==null) strolddate="";
+  	Date newDate= null;
+  	try  {  
+  	   newDate = df.parse(strolddate);  
+  	} catch (ParseException e) {  
+  	    //System.out.println(e.getMessage());  
+  	}  
+  	return newDate;
+  }
   
   
   public static String getWeekNo(String strnowdate) {

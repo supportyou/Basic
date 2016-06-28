@@ -51,13 +51,18 @@
 	<bean id="documentDao" class="com.basic.dao.impl.DocumentDao" parent="baseDao"></bean>
 	<!--  -->
 	
+	<!--  -->
+	<bean id="uploadAction" class="com.basic.action.UploadAction" scope="prototype">
+	</bean>
+	<bean id="downloadAction" class="com.basic.action.DownloadAction" scope="prototype">
+	</bean>
+	<!--  -->
+	
 	<!-- Email -->
 	<bean id="mailAction" class="com.basic.action.MailAction" scope="prototype">
 		<property name="mailSenderService" ref="mailSenderService"/>
 	</bean>
-	
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:mail.properties</value>
@@ -102,7 +107,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>          
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>

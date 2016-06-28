@@ -9,7 +9,7 @@
 			<li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
 			<li><a href="findallstudentbypager.action"><span class="glyphicon glyphicon-th"></span> Student</a></li>
 			<li><a href="findalldocumentbypager.action"><span class="glyphicon glyphicon-stats"></span> Document</a></li>
-			<li><a href=""><span class="glyphicon glyphicon-list-alt"></span> Menu2</a></li>
+			<li><a href="mail.action"><span class="glyphicon glyphicon-list-alt"></span> Mail</a></li>
 			<li><a href=""><span class="glyphicon glyphicon-pencil"></span> Menu3</a></li>
 			<li><a href=""><span class="glyphicon glyphicon-info-sign"></span> Menu4</a></li>
 			<li class="parent ">

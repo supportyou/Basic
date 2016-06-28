@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.basic.base.IBaseService;
 
+import com.basic.pojo.Student;
+
 public interface IStudentService extends IBaseService {
 	
 	//public void save(Student student);
@@ -14,5 +16,7 @@ public interface IStudentService extends IBaseService {
 	
 	//public Page<Student> findAllByPager(int pageSize, int pageNo);
 	//public Page<Student> findAllByPager(int pageSize, int pageNo, String orderByProperty, boolean desc);
+	
+	public void saveList(List<Student> sList);
 	
 }

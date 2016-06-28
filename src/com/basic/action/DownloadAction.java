@@ -6,7 +6,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;  
 
-import com.basic.util.dataFormat;;
+import com.basic.util.DataFormat;;
 
 public class DownloadAction extends ActionSupport {  
 

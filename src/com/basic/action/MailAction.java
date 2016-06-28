@@ -19,7 +19,7 @@ public class MailAction extends BaseAction{
     	String content="测试，Testing...!!!";
     	
     	String imagePath="D:\\test\\Simpleisbest.jpg";
-    	String filePath="D:\\test\\JAVA版.pdf";
+    	String filePath="D:\\test\\2016 调整后的价格表.docx";
     	
     	String templateName="mail.vm";
     	String userName="Rock Shi";
@@ -39,8 +39,8 @@ public class MailAction extends BaseAction{
     	//mailSenderService.sendHtmlWithTemplate(model);
     	//mailSenderService.sendText();
     	//mailSenderService.sendHtml();
-    	mailSenderService.sendHtmlWithImage(imagePath);
-    	//mailSenderService.sendHtmlWithAttachment(filePath);
+    	//mailSenderService.sendHtmlWithImage(imagePath);
+    	mailSenderService.sendHtmlWithAttachment(filePath);
     	
     	System.out.println("邮件发送成功！");  
     	

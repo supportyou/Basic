@@ -37,10 +37,28 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">All Students</div>
 					<div class="panel-body">
-						<table class="table table-responsive table-hover table-bordered table-condensed table-striped">
-							<caption>所有学生列表</caption>
+						<div class="row">
+							<div class="col-sm-12">
+								<span>
+									<a class="btn btn-primary" id="myAdd" href="${ctx}/student/student_add.jsp">Add</a>
+									<a class="btn btn-primary" id="myAddExcel" href="#">批量增加</a>
+									<!--
+									<a class="btn btn-primary" id="myAdd" href="#">Add</a>
+									<a class="btn btn-primary" id="myAddByAjax" href="#">Add By Ajax</a>
+									-->
+								</span>
+								<span class="pull-right">
+									<a class="btn btn-primary" id="myPdf" href="javascript:">PDF</a>
+									<a class="btn btn-primary" id="myExcel" href="javascript:">Excel</a>
+								</span>
+							</div>
+						</div>
+						<br>
+						<form action="" method="post">
+						<table id="myTable" class="table table-responsive table-hover table-bordered table-condensed table-striped">
 							<thead>
 								<tr>
+									<th><input type="checkbox" id="myCheckbox"></th>
 									<th>ID</th>
 									<th>User Name</th>
 									<th>Sex</th>
@@ -53,12 +71,14 @@
 									<th>C</th>
 									<!--<th>A</th>-->
 									<th>D</th>
+									<th>P</th>
 								</th>
 							</thead>
 							<tbody>
 							<c:if test="${page.content.size()>0}">
 								<c:forEach items="${page.content}" var="tbl">
 								<tr>
+									<td><input type="checkbox" name="box" value="${tbl.id}"></td>
 									<td>${tbl.id}</td>
 									<td>${tbl.userName}</td>
 									<td>${tbl.sex}</td>
@@ -71,23 +91,18 @@
 									<td><a href="findonestudent.action?forWhere=copy&id=${tbl.id}" title="Copy"><span class="glyphicon glyphicon-list"></span></a></td>
 									<!--<td><a onClick="myClick('${tbl.id}')" id="myAmend" title="Amend"><span class="glyphicon glyphicon-th"></span></a></td>-->
 									<td><a href="deletestudent.action?id=${tbl.id}" class="myDelete" title="Delete"><span class="glyphicon glyphicon-remove"></span></a></td>
+									<td><a href="findonestudent.action?forWhere=pdf&id=${tbl.id}" target="_blank" title="PDF">P</span></a></td>
 								</tr>
 								</c:forEach>
 							</c:if>
 							</tbody>
 						</table>
+						</form>
 
 						<br>
 						
 						<div class="row">
-							<div class="col-sm-3">
-								<a class="btn btn-primary" id="myAdd" href="${ctx}/student/student_add.jsp">Add</a>
-								<!--
-								<a class="btn btn-primary" id="myAdd" href="#">Add</a>
-								<a class="btn btn-primary" id="myAddByAjax" href="#">Add By Ajax</a>
-								-->
-							</div>
-							<div class="col-sm-9">
+							<div class="col-sm-12">
 								<p:page totalElements="${page.totalElements}" pageNo="${page.pageNo}" pageSize="${page.pageSize}" url="findallstudentbypager.action"/>
 							</div>
 						</div>
@@ -112,24 +127,24 @@
 					<h1 class="modal-title" id="myModalLabel">Please Add</h1>
 				</div>
 				<div class="modal-body" id="myModalBodyAdd">
-					   <div class="form-group">
-					      <label for="userName" class="col-sm-3 control-label">User Name:</label>
-					      <div class="col-sm-5">
-					         <input type="text" class="form-control" id="userName" name="student.userName" placeholder="User Name" required>
-					      </div>
-					   </div>
-					   <div class="form-group">
-					      <label for="sex" class="col-sm-3 control-label">Sex:</label>
-					      <div class="col-sm-5">
-					         <input type="text" class="form-control" id="sex" name="student.sex" placeholder="Sex" required>
-					      </div>
-					   </div>
-					   <div class="form-group">
-					      <label for="remark" class="col-sm-3 control-label">Remark:</label>
-					      <div class="col-sm-5">
-					         <input type="text" class="form-control" id="remark" name="student.remark" placeholder="Remark">
-					      </div>
-					   </div>
+					<div class="form-group">
+						<label for="userName" class="col-sm-3 control-label">User Name:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="userName" name="student.userName" placeholder="User Name" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="sex" class="col-sm-3 control-label">Sex:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="sex" name="student.sex" placeholder="Sex" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="remark" class="col-sm-3 control-label">Remark:</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="remark" name="student.remark" placeholder="Remark">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="submit" id="mySubmitAdd">Save</button>
@@ -196,6 +211,31 @@
 		</div>
 	</div>
 	
+	<form class="form-horizontal" role="form" action="export_excelInto.action" enctype="multipart/form-data" method="post" name="myFormAddExcel" id="myFormAddExcel">
+	<div id="myModalAddExcel" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title" id="myModalLabel">Please upload</h1>
+				</div>
+				<div class="modal-body" id="myModalBodyAddExcel">
+					<div class="form-group">
+						<label for="userName" class="col-sm-3 control-label">Excel File:</label>
+						<div class="col-sm-5">
+							<input type="file" class="form-control" id="uploadFile" name="uploadFile" placeholder="Excel File" required>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit" id="mySubmitAddExcel">Upload</button>
+					<button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	
 	<script src="${ctx}/vendor/jquery/jquery.min.js"></script>
 	<script src="${ctx}/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${ctx}/vendor/bootstrap-table/bootstrap-table.js"></script>
@@ -212,8 +252,8 @@
 		//});
 
 		//$(function() {
-			//$("mySubmit").click(function() {
-				//$("myForm").submit();
+			//$("#mySubmit").click(function() {
+				//$("#myForm").submit();
 				//$("#myModal").modal("hide");
 			//});
 		//});
@@ -265,6 +305,120 @@
 				});
 				
 				return false;
+			});
+		});
+		
+		function selectAll(){
+			var str=document.getElementsByName("box");
+			if(!$("#myCheckbox").attr("checked")){
+				for(var i=0;i<str.length;i++){
+					str[i].checked=true;
+				}
+			}else{
+				for(var i=0;i<str.length;i++){
+					str[i].checked=false;
+				}
+			}
+		}
+		
+		$(function(){
+			var str=document.getElementsByName("box");
+	        $("#myCheckbox").click(function(){
+	            if(this.checked) {
+					for(var i=0;i<str.length;i++){
+						str[i].checked=true;
+					}
+	            } else {
+					for(var i=0;i<str.length;i++){
+						str[i].checked=false;
+					}
+	            }
+	        });
+	    });
+		
+		var ids='';
+		$(function(){
+			$("#myPdf").click(function(){
+				$("#myTable input[type='checkbox']").each(function(){
+					if($(this).is(":checked")){if($(this).val()!='on'){ids=ids+$(this).val()+',';}}
+				});
+				if(ids==''){
+					alert("请选择要导出的数据！");
+				}else{
+					if(confirm("确认导出选中数据吗？")){
+						document.forms[1].action="export_pdfExport.action?ids="+ids;
+						document.forms[1].submit();
+						ids='';
+					}else{
+					//将复选框的状态更改为位选中，并清空所有的Id数值
+						$.each($("#myTable input[type='checkbox']"),function(i,v){if($(v).attr("checked")=="checked"){ v.checked=false;}});ids='';
+					}
+				}
+			});
+		});
+		
+		var ids='';
+		$(function(){
+			$("#myExcel").click(function(){
+				$("#myTable input[type='checkbox']").each(function(){
+					if($(this).is(":checked")){if($(this).val()!='on'){ids=ids+$(this).val()+',';}}
+				});
+				if(ids==''){
+					alert("请选择要导出的数据！");
+				}else{
+					if(confirm("确认导出选中数据吗？")){
+						document.forms[1].action="export_excelExport.action?ids="+ids;
+						document.forms[1].submit();
+						ids='';
+					}else{
+					//将复选框的状态更改为位选中，并清空所有的Id数值
+						$.each($("#myTable input[type='checkbox']"),function(i,v){if($(v).attr("checked")=="checked"){ v.checked=false;}});ids='';
+					}
+				}
+			});
+		});
+		
+		$(function() {
+			$("#myFormAddExcel").validate({
+				rules: {
+					"uploadFile": {
+						required: true
+					}
+				},
+				messages: {
+					"uploadFile": {
+						required: "Please select your File!"
+					}
+				}
+			});
+		});
+		
+		$(function() {
+			$("#myAddExcel").click(function() {
+				$("#myModalAddExcel").modal("show");
+			});
+		});
+
+		$(function() {
+			$("#mySubmitAddExcel").click(function() {
+				$("#myFormAddExcel").submit();
+				//$("#myModalAddExcel").modal("hide");
+				
+				$("#myModalAddExcel").on('hide.bs.modal', function () {
+					$("#myFormAddExcel").validate({
+						rules: {
+							"uploadFile": {
+								required: true
+							}
+						},
+						messages: {
+							"uploadFile": {
+								required: "Please select your File!"
+							}
+						}
+					});
+				});
+
 			});
 		});
 	</script>

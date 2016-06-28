@@ -18,4 +18,6 @@ public interface IStudentDao extends IBaseDao<Student, Integer> {
 	//public Page<Student> findAllByPager(int pageSize, int pageNo);
 	//public Page<Student> findAllByPager(int pageSize, int pageNo, String orderByProperty, boolean desc);
 	
+	public void saveList(List<Student> sList);
+	
 }

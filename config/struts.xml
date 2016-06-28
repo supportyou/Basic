@@ -24,6 +24,7 @@
 			<result name="view">${ctx}/student/student_view.jsp</result>
 			<result name="amend">${ctx}/student/student_amend.jsp</result>
 			<result name="copy">${ctx}/student/student_add.jsp</result>
+			<result name="pdf">${ctx}/file/export/export.pdf</result>
 		</action>
 		<action name="findallstudent" class="studentAction" method="findAll">
 			<result name="findall">${ctx}/student/all.jsp</result>
@@ -32,6 +33,22 @@
 			<result name="findallbypager">${ctx}/student/student_all.jsp</result>
 		</action>
 		<action name="findallstudentforjson" class="studentAction" method="findAllForJson"></action>
+		
+    	<action name="export_*" class="studentAction" method="{1}">
+    		<result name="success" type="redirect">findallstudentbypager.action</result>
+            <result name="pdf" type="stream">
+                <param name="contentType">application/pdf; charset=UTF-8</param>
+                <param name="inputName">pdfFile</param>
+                <param name="contentDisposition">attachment; filename="student.pdf"</param>
+                <param name="bufferSize">2048</param>
+            </result>
+			<result name="excel" type="stream">
+			    <param name="contentType">application/vnd.ms-excel</param>
+			    <param name="inputName">excelFile</param>
+			    <param name="contentDisposition">attachment;filename="student.xls"</param>
+                <param name="bufferSize">2048</param>
+			</result>
+		</action>
 	</package>
 	
 	<package name="user" extends="struts-default">
@@ -81,7 +98,7 @@
 	</package>
 	
 	<package name="upload" extends="struts-default">
-		<action name="upload" class="com.basic.action.UploadAction">          
+		<action name="upload" class="uploadAction">          
 			<result name="success">${ctx}/student/upload_ok.jsp</result>      
 			<result name="input">${ctx}/student/upload.jsp</result>
 			
@@ -94,7 +111,7 @@
 	</package>
 	
 	<package name="download" extends="struts-default">
-		<action name="download" class="com.basic.action.DownloadAction">          
+		<action name="download" class="downloadAction">          
 			<result name="success" type="stream">
 				<param name="contentType">application/octet-stream;charset=UTF-8</param>
 				<param name="inputName">downloadFile</param>  
@@ -106,7 +123,7 @@
 	
 	<package name="mail" extends="struts-default">
 		<action name="mail" class="mailAction">
-			<result name="success" type="redirect">${ctx}/test.jsp</result>
+			<result name="success" type="redirect">${ctx}/student/mail_ok.jsp</result>
 		</action>
 	</package>  
     

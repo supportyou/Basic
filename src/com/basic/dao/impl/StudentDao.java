@@ -42,4 +42,13 @@ public class StudentDao extends BaseDao<Student, Integer> implements IStudentDao
 		//return super.findAllByPager(pageSize, pageNo, orderByProperty, desc);
 	//}
 	
+	public void saveList(List<Student> sList){
+		if(sList.size() > 0){
+			int sNum = sList.size();
+			for(int i=0;i<sNum;i++){
+				super.save(sList.get(i));
+			}
+		}
+	}
+	
 }

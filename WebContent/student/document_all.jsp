@@ -37,8 +37,18 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">All Documents</div>
 					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<span>
+									<a class="btn btn-primary" id="myAdd" href="${ctx}/student/document_add.jsp">Add</a>
+								</span>
+								<span class="pull-right">
+									<a class="btn btn-primary" id="" href="">Other</a>
+								</span>
+							</div>
+						</div>
+						<br>
 						<table class="table table-responsive table-hover table-bordered table-condensed table-striped">
-							<caption>所有文件列表</caption>
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -72,10 +82,7 @@
 						<br>
 						
 						<div class="row">
-							<div class="col-sm-3">
-								<a class="btn btn-primary" id="myAdd" href="${ctx}/student/document_add.jsp">Add</a>
-							</div>
-							<div class="col-sm-9">
+							<div class="col-sm-12">
 								<p:page totalElements="${page.totalElements}" pageNo="${page.pageNo}" pageSize="${page.pageSize}" url="findalldocumentbypager.action"/>
 							</div>
 						</div>

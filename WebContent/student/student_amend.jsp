@@ -121,6 +121,51 @@
 		</div><!--/.row-->
 
 	</div>	<!--/.main-->
+	
+	
+	<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title" id="myModalLabel">Please select</h1>
+				</div>
+				<div class="modal-body">
+					<table class="table table-responsive table-hover table-bordered table-condensed table-striped" id="dataTable">
+						<caption>Student List</caption>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>User Name</th>
+								<th>Sex</th>
+								<th>Birthday</th>
+								<th>Degree</th>
+								<th>Remark</th>
+								<th>Non-Active</th>
+							</th>
+						</thead>
+						<tbody>
+							<!--
+							<tr onclick="myClick(this)">
+								<td>000</td>
+								<td>ABC</td>
+								<td>DEF</td>
+								<td>HIJ</td>
+								<td>KLM</td>
+								<td>KLM</td>
+								<td>NOP</td>
+							</tr>
+							-->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary btn-lg" type="button" data-dismiss="modal">Close</button>
+					<button class="btn btn-danger btn-lg">Other</button>
+				</div>
+			</div>
+		</div>
+	</div>
 		
 	
 	<script src="${ctx}/vendor/jquery/jquery.min.js"></script>
@@ -171,7 +216,110 @@
 			dateFormat: "yy-mm-dd"
 		});
 
+		$(function() {
+			$("#myOpen").click(function() {
+				//loadAjaxData();
+				$("#myModal").modal("show");
+			});
+		});
 		
+		$("#myModal").on('show.bs.modal', function () { 
+			loadAjaxData();
+		});
+
+		function loadAjaxData() {
+			var param = {userName:$("#userName").val()};
+			$.post("findallstudentforjson.action", param, function(json){
+				var str = "";
+				$(json).each(function(idx, item) {
+					str += "<tr onclick='myClick(this)' style='cursor: pointer;''>"
+					+ "<td>" + item.id + "</td>"
+					+ "<td>" + item.userName + "</td>"
+					+ "<td>" + item.sex + "</td>"
+					+ "<td>" + item.birthday + "</td>"
+					+ "<td>" + item.degree + "</td>"
+					+ "<td>" + item.remark + "</td>"
+					+ "<td>" + item.nonActive + "</td>"
+					+ "</tr>";
+				});
+				
+				$("#dataTable>tbody").html(str);
+			}, "json");
+		}
+
+		function myClick(obj) {
+			var tds=$(obj).find("td");
+			$("#userName").val(tds.eq(1).text());
+			$("#birthday").val(tds.eq(3).text());
+			$("#remark").val(tds.eq(5).text());
+			
+			//$("input:radio[value='+tds.eq(2).text()+']").eq(0).attr("checked",true);
+			$("input:radio[name='student.sex'][value="+tds.eq(2).text()+"]").attr("checked",true); 
+			
+			$("#degree option:contains("+tds.eq(4).text()+")").attr("selected", true);
+
+			if (tds.eq(6).text()=="Yes") {
+				$("#nonActive").attr("checked", true);
+			} else {
+				$("#nonActive").attr("checked", false);
+			}
+
+			$("#myModal").modal("hide");
+		}
+
+		$(function() {
+			//myListLoadAjaxData();
+			var myList = [
+				"Shenzhen",
+				"Shanghai",
+				"Yantian",
+				"中国",
+				"中东",
+				"上海"
+			];
+
+			$("#userName").autocomplete({
+				//source: myList,
+				
+
+
+
+			//OK---------
+			source: function( request, response ) {
+                $.ajax({
+                    url: "findallstudentforjson.action",
+                    dataType: "json",
+                    data:{
+                        myuserName: request.term
+                    },
+                    success: function( data ) {
+                        response( $.map( data, function( item ) {
+                            return {
+                                value: item.userName
+                            }
+                        }));
+                    }
+                });
+            },
+				
+				minLength: 0
+			}).focus(function(){
+				$(this).autocomplete('search','');
+			});
+			
+		});
+		
+		function myListLoadAjaxData() {
+			var param = {id:$("#userName").val()};
+			$.post("findallstudentforjson.action", param, function(json){
+				var str = "";
+				$(json).each(function(idx, item) {
+					str += "" + item.userName + "";
+				});
+				$("#remark").val(str);
+			}, "json");
+			return str;
+		}	
 	</script>
 	
 </body>

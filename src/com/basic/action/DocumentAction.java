@@ -19,7 +19,7 @@ import com.basic.base.BaseAction;
 import com.basic.service.IDocumentService;
 import com.basic.pojo.Document;
 import com.basic.util.Page;
-import com.basic.util.dataFormat;
+import com.basic.util.DataFormat;
 
 public class DocumentAction extends BaseAction {
 
@@ -201,7 +201,7 @@ public class DocumentAction extends BaseAction {
 			fileContentType.add(this.getFileContentType().get(i));
 			fileSize.add(in.available());
 			newFileName.add(this.createNewFileName()+"_"+i+"_"+this.getFileFileName().get(i));
-			uploadTime.add(dataFormat.getDateTime());
+			uploadTime.add(DataFormat.getDateTime());
 			
 			File uploadFile = new File(dir, myFileName);   
 			OutputStream out = new FileOutputStream(uploadFile);   

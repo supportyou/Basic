@@ -6,6 +6,8 @@ import com.basic.base.BaseService;
 import com.basic.dao.IStudentDao;
 import com.basic.service.IStudentService;
 
+import com.basic.pojo.Student;
+
 public class StudentService extends BaseService implements IStudentService {
 	
 	private IStudentDao studentDao;
@@ -37,6 +39,10 @@ public class StudentService extends BaseService implements IStudentService {
 	//public Page<Student> findAllByPager(int pageSize, int pageNo, String orderByProperty, boolean desc) {
 		//return studentDao.findAllByPager(pageSize, pageNo, orderByProperty, desc);
 	//}
+	
+	public void saveList(List<Student> sList) {
+		studentDao.saveList(sList);
+	}
 
 	
 	public IStudentDao getStudentDao() {
