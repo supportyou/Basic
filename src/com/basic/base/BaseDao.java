@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +13,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
 
+import com.basic.test.Test;
 import com.basic.util.Page;
 
 public class BaseDao<T, ID extends Serializable> implements IBaseDao<T, ID> {

@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -53,6 +54,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.basic.base.BaseAction;
 import com.basic.service.IStudentService;
+import com.basic.test.Test;
 import com.basic.pojo.Student;
 import com.basic.util.DataFormat;
 import com.basic.util.Page;
@@ -74,6 +76,8 @@ public class StudentAction extends BaseAction {
 	
 	private final static String FILEDIR = "file"; 
 	private InputStream downloadFile;
+	
+	//private static Logger logger = Logger.getLogger(StudentAction.class); 
 	
 	private Page<Student> page;
 	
@@ -107,6 +111,14 @@ public class StudentAction extends BaseAction {
     }
     
     public String findOne(){
+    	
+        // 记录debug级别的信息  
+        //logger.debug("This is debug message.");
+        // 记录info级别的信息  
+        //logger.info("This is info message.");
+        // 记录error级别的信息  
+        //logger.error("This is error message.");
+    	
     	student=(Student) studentService.findOne(id);
     	//put2Request("student", student);
     	if (forWhere.equals("amend")) {
